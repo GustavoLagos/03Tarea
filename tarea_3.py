@@ -64,18 +64,17 @@ y = RK3(mu, h, n, v, y0)
 
 #P2: Resolver el sistema de Lorenz con el metodo de Runge-Kutta de orden 4
 
-n = 1000
+n = 10000
 ti = 0
-tf = 1000
+tf = 100
 x0 = 1.0
 y0 = 2.0
 z0 = 3.0
 
 def derivadas(d, t, params):
     '''
-    dx_ds: num num num -> num
-    Calcula la funcion dx_ds.
-    ejemplo:
+    derivadas: array array array -> -
+    Calcula los valores de dx_dt, dy_dt, dz_dt.
     '''
     a, b, c = d
     sigma, beta, rho = params
