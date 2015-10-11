@@ -2,6 +2,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+from mpl_toolkits.mplot3d import Axes3D
 
 #P1: Integracion con el metodo de Runge-Kutta de orden 3
 
@@ -62,37 +64,45 @@ y = RK3(mu, h, n, v, y0)
 
 #P2: Resolver el sistema de Lorenz con el metodo de Runge-Kutta de orden 4
 
+n = 1000
+ti = 0
+tf = 1000
+x0 = 1.0
+y0 = 2.0
+z0 = 3.0
 
+def derivadas(d, t, params):
+    '''
+    dx_ds: num num num -> num
+    Calcula la funcion dx_ds.
+    ejemplo:
+    '''
+    a, b, c = d
+    sigma, beta, rho = params
+    return [sigma*(b - a), a*(rho - c) - b, a*b - beta*c]
 
+t = np.linspace(ti, tf, n)
+sigma = 10.0
+beta = 8/3
+rho = 28.0
+params =  [sigma, beta, rho]
 
+cond_inic = [x0, y0, z0]
+solucionador = odeint(derivadas, cond_inic, t, args=(params,)) #solucionador de EDOS
 
+u = solucionador[:, 0]
+v = solucionador[:, 1]
+w = solucionador[:, 2]
 
+fig = plt.figure(1)
+fig.clf()
 
+ax = fig.add_subplot(111, projection='3d')
+ax.set_aspect('equal')
 
+ax.plot(u, v, w)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+plt.savefig('grafico_3d')
